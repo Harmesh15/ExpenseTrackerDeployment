@@ -11,7 +11,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: cornsilk;
+    background-color: rgb(144, 143, 141);
 }
 
 .main{
@@ -26,7 +26,7 @@ form{
     display: flex;
     flex-direction: column;
     height: 50vh;
-    background-color: rgb(147, 149, 174);
+    background-color: rgb(190, 192, 211);
     padding: 30px;
     border-radius: 10px;
     font-size: 25px;

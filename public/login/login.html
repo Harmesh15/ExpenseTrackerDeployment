@@ -25,3 +25,101 @@
     <script src="login.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashfree Checkout Integration</title>
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Cashfree checkout Integration </h1>
+    </header>
+
+    <div class="card">
+        <h3>Click below to open the checkout page in current tab</h3>
+        <button id="renderBtn">Pay Now</button>
+        <div id="cf_checkout"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../cashfree/cashFreeWeb_modal.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+ <script>
+   
+    const cashfree = Cashfree({
+        mode: "sandbox", 
+    });
+
+    document.getElementById("renderBtn").addEventListener('click', async () => {
+        try {
+            console.log("clicked on paynow");
+
+           
+            const response = await axios.post("http://localhost:8000/payment/pay")
+                // headers: {
+                //     'Authorization': localStorage.getItem('token') // Agar auth middleware use kar rahe ho
+                // }
+            // });
+        
+            const data = response.data;
+            const paymentSessionId = data.paymentSessionId;
+            const orderId = data.orderId;
+
+            let checkoutOptions = {
+                paymentSessionId: paymentSessionId,
+                redirectTarget: "_modal",
+            };
+
+            // 3. Opening Checkout
+            const result = await cashfree.checkout(checkoutOptions);
+
+            if (result.error) {
+                console.log("Error or popup closed:", result.error);
+            }
+
+            if (result.paymentDetails) {
+                console.log("Payment flow completed");
+                // 4. Change port here as well to 8000
+                const response2 = await axios.post(`http://localhost:8000/payment-status/${orderId}`);
+                alert("Your payment status: " + response2.data.paymentStatus);
+            }
+        } catch (error) {
+            console.error("Axios Error Details:", error.response ? error.response.data : error.message);
+        }
+    });
+</script> -->
+

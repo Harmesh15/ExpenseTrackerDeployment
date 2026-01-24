@@ -1,5 +1,6 @@
 const users = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 
 const addUser = async (req, res) => {
@@ -27,8 +28,9 @@ const addUser = async (req, res) => {
 
 
 const loginUser = async (req, res) => {
+  console.log("login controller hit")
   try {
-    console.log(req.body);
+  
     const { email,password } = req.body;
 
     if (!email || !password) {
@@ -39,16 +41,22 @@ const loginUser = async (req, res) => {
       where: { email }
     });
 
-    if (!user) {
-      return res.status(400).json({ message: "invalid user" });
-    }
 
-    const isMatched = await bcrypt.compare(password,user.password);
+      if (!user)  return res.status(400).json({ message: "invalid user" });
+    
+      const isMatched = await bcrypt.compare(password,user.password);
+      if(!isMatched) return res.status(400).json({ message: "Wrong Password" })
+         
+        console.log(user.id,"this is id or find user from signlofin controller loginuser");
 
-      if(!isMatched){
-            return res.status(400).json({ message: "Wrong Password" });
-    }
-      return res.status(200).json({ message: "you login " });
+        const token = jwt.sign(
+            {userId: user.id},
+            "harmesh15",
+             { expiresIn: "1h" }
+        );
+
+        console.log(token,"this is new token");
+        res.json({message:"Login Successfull Token is",token});
     
   }catch (error) {
     console.log("LOGIN ERROR:", error);

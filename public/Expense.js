@@ -6,6 +6,9 @@ let category = document.querySelector('#select');
 let description = document.querySelector('#descinput');
 let button = document.querySelector('button');
 const List = document.getElementById("list");
+const showpremuiumbutton = document.querySelector(".showpremuiumbutton");
+const buypremiumbtn = document.querySelector(".buyMembership");
+const ListPremium = document.querySelector("#premiumUSerList");
 
 
 
@@ -31,8 +34,7 @@ form.addEventListener('submit', async function (event) {
          }
 
       );
-
-      console.log(response.data)
+      console.log("user added")
       getAllExpenses();
    } catch (error) {
       console.log(error);
@@ -40,10 +42,11 @@ form.addEventListener('submit', async function (event) {
 })
 
 
+
 const getAllExpenses = async () => {
    try {
 
-        const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const allExpense = await axios.get("http://localhost:8000/expense/getAll",
           {
             headers: {
@@ -53,8 +56,6 @@ const getAllExpenses = async () => {
 
       )
       const Data = allExpense.data;
-
-      console.log(Data);
       List.innerHTML = "";
 
       Data.forEach((item) => {
@@ -69,11 +70,15 @@ const getAllExpenses = async () => {
    } catch (error) {
       console.log(error.message);
    }
-};
+}
+
+window.addEventListener("load-Dom-data", getAllExpenses())
 
 const deleteExpense = async (id) => { 
+   console.log("delete button clicked");
    try {
       const token = localStorage.getItem("token");
+      console.log(token);
       const deleteval = await axios.delete(`http://localhost:8000/expense/delete/${id}`, 
          {
             headers: {
@@ -81,15 +86,53 @@ const deleteExpense = async (id) => {
             }
          }
       );
-      console.log(deleteval);
       console.log("delete Expense");
-      getAllExpenses();
    } catch (error) {
       console.log(error);
    }
 }
 
-window.addEventListener("load-Dom-data", getAllExpenses());
+
+
+// buy premium button
+buypremiumbtn.addEventListener("click",()=>{
+   window.location.href="../views/index.html";
+})
+
+
+showpremuiumbutton.addEventListener("click" , async ()=>{ 
+
+   console.log("show premium btn hit");     
+   try{
+      
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:8000/expense/premiumUser",{
+         headers:{
+            authorization:`Bearer ${token}`
+         }
+      });
+
+      const Data = response.data;
+      ListPremium.innerHTML = "";
+      Data.forEach((item)=>{
+         const li = document.createElement("li");
+         li.innerHTML = `
+             ${item.name}   ${item.total_amount}
+         `
+         ListPremium.appendChild(li);
+      })
+      console.log("users Displayed");
+      
+   }catch(error){
+      console.log(error);
+   }
+})
+
+
+
+
+
+// window.addEventListener("load-Dom-data", getAllExpenses());
 
 
 // const updateExpense = async (req,res)=>{ 

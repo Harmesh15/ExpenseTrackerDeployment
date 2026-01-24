@@ -2,19 +2,25 @@
   "name": "expenseapp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@cashfreepayments/cashfree-js": "^1.0.5",
     "bcrypt": "^6.0.0",
+    "cashfree-pg": "^5.1.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "fetch": "^1.1.0",
+    "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.16.0",
+    "path": "^0.12.7",
     "sequelize": "^6.37.7"
   }
 }
