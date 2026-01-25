@@ -1,4 +1,5 @@
-
+const GeminiApi = require("@google/genai");
+require("dotenv").config();
 const Expense = require("../models/expenseModel");
 const users = require("../models/userModel");
 const sequelize = require("sequelize");
@@ -7,13 +8,22 @@ const addExpense = async (req, res) => {
     console.log("addexpense hit");
     console.log("user id ", req.user.userId);
 
+     try {
 
-    try {
-        const { amount, category, description } = req.body;
+     const { amount, description } = req.body;
+    
+       const ai = new GeminiApi.GoogleGenAI({apiKey:process.env.GEMINI_API_KEY});
+    
+       const response = await ai.models.generateContent({
+          "model" : "gemini-3-flash-preview",
+          "contents":`one word category for this expense ${description}`
+       })
+      
+    const categoryval = response.text;
 
         const expense = await Expense.create({
             amount: amount,
-            category: category,
+            category: categoryval,
             description: description,
             userId: req.user.userId
         })

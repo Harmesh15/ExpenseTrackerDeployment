@@ -1,4 +1,3 @@
-
 let form = document.querySelector('form');
 let amount = document.querySelector('#inputval');
 let category = document.querySelector('#select');
@@ -11,10 +10,8 @@ const ListPremium = document.querySelector("#premiumUSerList");
 
 
 
-
 form.addEventListener('submit', async function (event) {
    event.preventDefault();
-
 
    console.log("hello from add expense funtion")
    const token = localStorage.getItem("token");
@@ -23,7 +20,6 @@ form.addEventListener('submit', async function (event) {
    try {
       const response = await axios.post("http://localhost:8000/expense/add", {
          amount: amount.value,
-         category: category.value,
          description: description.value
       },
        {
@@ -31,7 +27,6 @@ form.addEventListener('submit', async function (event) {
                authorization: `Bearer ${token}`
             }
          }
-
       );
       console.log("user added")
       getAllExpenses();
