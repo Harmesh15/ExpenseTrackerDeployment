@@ -5,10 +5,11 @@ const sequelize = require("sequelize");
 
 const addExpense = async (req, res) => {
     console.log("addexpense hit");
+    console.log("user id ", req.user.userId);
+
+
     try {
         const { amount, category, description } = req.body;
-
-          console.log( "CONTROLLER m chal", req.user.userId);
 
         const expense = await Expense.create({
             amount: amount,
@@ -16,6 +17,20 @@ const addExpense = async (req, res) => {
             description: description,
             userId: req.user.userId
         })
+
+         const user = await users.findOne({
+            where: { id: req.user.userId },
+            attributes: ['totalExpense']
+        });
+       
+    
+        const totalExpense = Number(user.totalExpense);
+        const amountval = Number(req.body.amount);
+
+        const updatetExpense = (totalExpense + amountval);  
+
+        await users.update({totalExpense:updatetExpense},{where:{id:req.user.userId}})
+
 
         res.status(201).json(expense);
     } catch (error) {
@@ -102,29 +117,39 @@ const updateExpense = async (req, res) => {
 const premiumUserFuncon = async (req, res) => {
     console.log("show primum chala controller m")
     try {
-        const response = await Expense.findAll({
-            attributes: [
-                [sequelize.col("name"), "name"],
-                [sequelize.fn("SUM", sequelize.col("Expense.amount")), "total_amount"]
-            ],
-            include: [
-                {
-                    model: users,
-                    attributes: []
-                }
-            ],
-            group: [
-                "name"
-            ],
-            order: [
-                [sequelize.fn("SUM", sequelize.col("Expense.amount")), "DESC"]
-            ],
-            raw: true
-        })
+        // const response = await Expense.findAll({
+        //     attributes: [
+        //         [sequelize.col("name"), "name"],
+        //         [sequelize.fn("SUM", sequelize.col("Expense.amount")), "total_amount"]
+        //     ],
+        //     include: [
+        //         {
+        //             model: users,
+        //             attributes: []
+        //         }
+        //     ],
+        //     group: [
+        //         "name"
+        //     ],
+        //     order: [
+        //         [sequelize.fn("SUM", sequelize.col("Expense.amount")), "DESC"]
+        //     ],
+        //     raw: true
+        // })
 
+
+        const response = await users.findAll({
+            attributes:['name','totalExpense'],
+            order:[['totalExpense', "DESC"]],
+            raw:true
+
+        })
 
         console.log(response.data);
         res.status(200).json(response);
+    }    catch (error) {
+        console.log(error.original);
+        res.status(500).json(error.message);
     }
     // try {
     //     const response = await Expense.findAll({
@@ -147,11 +172,6 @@ const premiumUserFuncon = async (req, res) => {
     //     res.status(200).json({response});
     //     }
 
-
-    catch (error) {
-        console.log(error.original);
-        res.status(500).json(error.message);
-    }
 }
 
 

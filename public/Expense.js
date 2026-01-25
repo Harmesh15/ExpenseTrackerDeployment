@@ -1,4 +1,3 @@
-// const { response } = require("express");
 
 let form = document.querySelector('form');
 let amount = document.querySelector('#inputval');
@@ -37,6 +36,7 @@ form.addEventListener('submit', async function (event) {
       console.log("user added")
       getAllExpenses();
    } catch (error) {
+      console.log("Not Authorize to delete other's expenses")
       console.log(error);
    }
 })
@@ -53,7 +53,6 @@ const getAllExpenses = async () => {
                authorization: `Bearer ${token}`
             }
          }
-
       )
       const Data = allExpense.data;
       List.innerHTML = "";
@@ -87,6 +86,7 @@ const deleteExpense = async (id) => {
          }
       );
       console.log("delete Expense");
+      getAllExpenses();
    } catch (error) {
       console.log(error);
    }
@@ -117,7 +117,7 @@ showpremuiumbutton.addEventListener("click" , async ()=>{
       Data.forEach((item)=>{
          const li = document.createElement("li");
          li.innerHTML = `
-             ${item.name}   ${item.total_amount}
+             ${item.name}   ${item.totalExpense}
          `
          ListPremium.appendChild(li);
       })

@@ -16,7 +16,7 @@ const addUser = async (req, res) => {
         const response = await users.create({
             name: name,
             email: email,
-            password:hashedPass
+            password:hashedPass,
         })
 
         res.status(201).json(response)
