@@ -1,6 +1,8 @@
 const form = document.querySelector('form');
 const email = document.querySelector('#email');
 const password = document.querySelector('#password');
+const signbtn = document.querySelector("#signup");
+const fpassbtn = document.querySelector("#fpswd")
 
 
 form.addEventListener("submit", async (e) => {
@@ -27,9 +29,13 @@ form.addEventListener("submit", async (e) => {
 
 })
 
-const signbtn = document.querySelector("#signup");
+
 signbtn.addEventListener('click', (e) => {
     e.preventDefault();
     window.location.href = "../signup/signup.html";
 
+})
+
+fpassbtn.addEventListener("click",()=>{
+   window.location.href="../forgot/forgot.html";
 })

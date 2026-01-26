@@ -3,6 +3,7 @@ const db = require("./utils/db-connection");
 const expenseRoute = require("./routes/expenseRoutes");
 const userRoutes = require("./routes/userRoutes");
 const paymentRoutes = require("./routes/PaymentRoutes");
+const forgotPassRoute = require("./routes/forgotRoute");
 require('dotenv').config()
 // const Payment = require("./models/payment");
 
@@ -22,6 +23,7 @@ app.use(express.static('public'));
 // routes 
 app.use("/user", userRoutes);
 app.use("/expense", expenseRoute)
+app.use("/called",forgotPassRoute)
 app.use("/", paymentRoutes);
 
 
