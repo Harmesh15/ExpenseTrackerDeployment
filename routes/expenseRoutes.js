@@ -10,6 +10,6 @@ route.delete("/delete/:id",authorizationToken,expenseController.deleteExpense);
 route.get("/getAll",authorizationToken,expenseController.getExpense);
 route.get("/premiumUser",authorizationToken,expenseController.premiumUserFuncon);
 route.get("/all",authorizationToken,expenseController.getAllExpenseForReport)
-// route.put("/update",expenseController.updateExpense);
+//route.put("/update",expenseController.updateExpense);
 
 module.exports = route;

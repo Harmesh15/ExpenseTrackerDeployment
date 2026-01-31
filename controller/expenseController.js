@@ -4,7 +4,7 @@ const users = require("../models/userModel");
 const sequelize = require("../utils/db-connection");
 
 
-// transaction
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Expense@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 const addExpense = async (req, res) => {
     let t = await sequelize.transaction();
@@ -62,7 +62,7 @@ const addExpense = async (req, res) => {
 
 
 const getExpense = async (req, res) => {
-    console.log("refresh par chala")
+    console.log("refresh par chala getExpense")
     try {
         const getexpense = await Expense.findAll();
 
@@ -205,18 +205,21 @@ const premiumUserFuncon = async (req, res) => {
 
 
 
-// report 
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@_Report_@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 const getAllExpenseForReport = async (req,res)=>{
     try{
        console.log("getallexpensereport controller hit");
-        const page = parseInt(req.query.page) || 1;
-        const limit = 10;
+         
+       let limit = parseInt(req.query.limit) || 5;
+        const page = parseInt(req.query.page);
+   
         const offset = (page-1)*limit;
+      
 
        const totalexpenses = await Expense.count({where:{userId:req.user.userId}});  
        const expenses = await Expense.findAll({where:{userId:req.user.userId}, limit:limit,offset:offset,order:[['createdAt',"DESC"]]})
-
+       console.log(expenses,"from controllers");
        const totalpage = Math.ceil(totalexpenses/limit);
 
        res.status(200).json({
@@ -245,50 +248,3 @@ module.exports = {
     premiumUserFuncon,
     getAllExpenseForReport
 }
-
-
-// const response = await Expense.findAll({
-    //     attributes: [
-    //         [sequelize.col("name"), "name"],
-    //         [sequelize.fn("SUM", sequelize.col("Expense.amount")), "total_amount"]
-    //     ],
-    //     include: [
-    //         {
-    //             model: users,
-    //             attributes: []
-    //         }
-    //     ],
-    //     group: [
-    //         "name"
-    //     ],
-    //     order: [
-    //         [sequelize.fn("SUM", sequelize.col("Expense.amount")), "DESC"]
-    //     ],
-    //     raw: true
-    // })
-
-
-
-
-
-
-    // try {
-    //     const response = await Expense.findAll({
-
-    //         attributes: [
-    //             "userId",
-    //             [sequelize.fn("SUM", sequelize.col("amount")), "totalAmount"]
-    //         ],
-    //         include:[
-    //             {
-    //                 model:users,
-    //                 attributes:["name"]
-    //             }
-    //         ],
-    //         group: ["Expense.userId", "users.id"],
-    //         order: [[sequelize.fn("SUM", sequelize.col("amount")), "DESC"]],
-    //         raw: true
-    //     })
-
-    //     res.status(200).json({response});
-    //     }

@@ -1,13 +1,8 @@
-
 const page1btn = document.querySelector('#page1');
-
 const firstTablebody = document.getElementById("firstTablebody");
 
 
-
-
 let currentpage = 1;
-
 async function fetchExpenses(page){
     try{
       const token =localStorage.getItem("token");
