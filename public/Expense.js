@@ -3,6 +3,7 @@ let amount = document.querySelector('#inputval');
 let category = document.querySelector('#select');
 let description = document.querySelector('#descinput');
 let button = document.querySelector('button');
+
 const List = document.getElementById("list");
 const showpremuiumbutton = document.querySelector(".showpremuiumbutton");
 const buypremiumbtn = document.querySelector(".buyMembership");
@@ -30,7 +31,8 @@ form.addEventListener('submit', async function (event) {
       const response = await axios.post("http://localhost:8000/expense/add", {
          amount: amount.value,
          category:category.value,
-         description: description.value
+         description: description.value,
+         note:description.value + category.value,
       },
        {
             headers: {
@@ -41,14 +43,11 @@ form.addEventListener('submit', async function (event) {
       console.log("user added")
       form.reset();
       getAllExpenses();
-      limitfun(5);
    } catch (error) {
       console.log("user not added")
       console.log(error);
    }
 })
-
-
 
 const getAllExpenses = async () => {
    try {
@@ -214,10 +213,49 @@ function renderPagination(pagination) {
   }
 }
 
-
 window.onload = function () {
   fetchExpenses(1);
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
