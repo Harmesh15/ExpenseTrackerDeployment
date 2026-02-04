@@ -48,6 +48,7 @@ fpassbtn.addEventListener("click", async () => {
         }
     );
         console.log(response);
+        alert("Please check you email to reset your Password");
     } catch (error) {
         console.log(error);
     }

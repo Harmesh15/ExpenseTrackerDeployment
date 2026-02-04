@@ -7,11 +7,19 @@ console.log("model m redirect hokar aagyi")
 document.getElementById("renderBtn").addEventListener("click", async () => {
     const token = localStorage.getItem("token");
     try {
+        let token = localStorage.getItem('token');
 
         // Fetch payment session ID from backend
-        const response = await axios.post("http://localhost:8000/pay");
+        const response = await axios.post("http://localhost:8000/pay",
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
         const data = response.data;
-        console.log("response pay is",data)
+        console.log("response pay is", data)
         const paymentSessionId = data.paymentSessionId;
         const orderId = data.orderId;
 
@@ -44,10 +52,10 @@ document.getElementById("renderBtn").addEventListener("click", async () => {
             console.log(result.paymentDetails.paymentMessage);
 
             const response = await axios.get(`http://localhost:8000/payment-status/${orderId}`, {
-                
+
             });
-            console.log("payemenet status is ",response)
-            const data =  response.data;
+            console.log("payemenet status is ", response)
+            const data = response.data;
             alert("Your payment is " + data.orderStatus)
         }
 

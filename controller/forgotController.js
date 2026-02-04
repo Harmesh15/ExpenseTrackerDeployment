@@ -8,6 +8,8 @@ client.authentications['api-key'].apiKey = process.env.BREVO_API_KEY;
 const api = new SibApiV3Sdk.TransactionalEmailsApi();
 
 const sendmailTouser = async (req, res) => {
+    console.log("BREVO KEY:", process.env.BREVO_API_KEY);
+
     console.log("SendMail hit in controller");
     try {
         const { email } = req.body;
@@ -27,7 +29,7 @@ const sendmailTouser = async (req, res) => {
         userId:user.id,
         isActive:true
     })
-          const resetLink = `http://localhost:8000/forgot/resetpassword.html?requestId=${requestid}`;
+        const resetLink = `http://localhost:8000/forgot/resetpassword.html?requestId=${requestid}`
         await api.sendTransacEmail({
             sender: { email: "harmeshmahaur44@gmail.com", name: "ExpenseTracker" },
             to: [{ email }],
@@ -39,9 +41,12 @@ const sendmailTouser = async (req, res) => {
         })
         res.status(200).json({ message: "mail sent to user" });
     } catch (error) {
-        console.log(error);
-        console.log("something went wrong");
-    }
+    console.error("Brevo Error:", error);
+    return res.status(500).json({
+        message: "Email sending failed",
+        error: error.message
+    });
+}
 }
 
 

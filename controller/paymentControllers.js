@@ -7,7 +7,7 @@ exports.getPaymentPage = (req, res) => {
 };
 
 exports.processPayment = async (req, res) => {
-                                                                                                                     
+  console.log("User Id is ",req.user.userId);                                                                                                                  
   const orderId = "ORDER-" + Date.now();
   const orderAmount = 2000;
   const orderCurrency = "INR";
@@ -32,6 +32,7 @@ exports.processPayment = async (req, res) => {
       orderAmount,
       orderCurrency,
       paymentStatus: "Pending",
+      userId:req.user.userId
     });
 
      console.log("process payment page hit sec times")
@@ -55,8 +56,7 @@ exports.updatePaymentStatus = async (req, res) => {
     );
 
     console.log(order);
-   
-   
+    
     res.json({orderStatus})
    
   } catch (error) {

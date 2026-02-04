@@ -3,6 +3,7 @@ let amount = document.querySelector('#inputval');
 let category = document.querySelector('#select');
 let description = document.querySelector('#descinput');
 let button = document.querySelector('button');
+
 const List = document.getElementById("list");
 const showpremuiumbutton = document.querySelector(".showpremuiumbutton");
 const buypremiumbtn = document.querySelector(".buyMembership");
@@ -21,16 +22,13 @@ let currentLimit = 5;
 
 form.addEventListener('submit', async function (event) {
    event.preventDefault();
-
-   console.log("hello from add expense funtion")
    const token = localStorage.getItem("token");
-   console.log(token,"token le liya hai add karne k liye");
-
    try {
       const response = await axios.post("http://localhost:8000/expense/add", {
          amount: amount.value,
          category:category.value,
-         description: description.value
+         description: description.value,
+         Expensenote:description.value + category.value,
       },
        {
             headers: {
@@ -38,21 +36,17 @@ form.addEventListener('submit', async function (event) {
             }
          }
       );
-      console.log("user added")
+      console.log("Expense added")
       form.reset();
       getAllExpenses();
-      limitfun(5);
    } catch (error) {
       console.log("user not added")
       console.log(error);
    }
 })
 
-
-
 const getAllExpenses = async () => {
    try {
-
       const token = localStorage.getItem("token");
       const allExpense = await axios.get("http://localhost:8000/expense/getAll",
           {
@@ -81,10 +75,8 @@ const getAllExpenses = async () => {
 window.addEventListener("load-Dom-data", getAllExpenses())
 
 const deleteExpense = async (id) => { 
-   console.log("delete button clicked");
    try {
       const token = localStorage.getItem("token");
-      console.log(token);
       const deleteval = await axios.delete(`http://localhost:8000/expense/delete/${id}`, 
          {
             headers: {
@@ -92,7 +84,7 @@ const deleteExpense = async (id) => {
             }
          }
       );
-      console.log("delete Expense");
+      console.log("Expense deleted");
       getAllExpenses();
        fetchExpenses(currentPage);
    } catch (error) {
@@ -109,18 +101,16 @@ buypremiumbtn.addEventListener("click",()=>{
 })
 
 
-showpremuiumbutton.addEventListener("click" , async ()=>{ 
-
-   console.log("show premium btn hit");     
+showpremuiumbutton.addEventListener("click" , async ()=>{     
    try{
-      
+      console.log("show premium btn hit");
       const token = localStorage.getItem("token");
       const response = await axios.get("http://localhost:8000/expense/premiumUser",{
          headers:{
             authorization:`Bearer ${token}`
          }
       });
-
+      console.log("users Displayed",response.data);
       const Data = response.data;
 
       ListPremium.innerHTML = "";
@@ -214,10 +204,49 @@ function renderPagination(pagination) {
   }
 }
 
-
 window.onload = function () {
   fetchExpenses(1);
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

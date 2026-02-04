@@ -16,6 +16,7 @@ form.addEventListener("submit", async (e) => {
                 }
             }
         );
+        alert("Password reset successfully")
         console.log(response);
 
     } catch(error){
