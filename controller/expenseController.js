@@ -12,8 +12,13 @@ const addExpense = async (req, res) => {
 
         console.log("addexpense hit");
 
+<<<<<<< HEAD
         const { amount, category, description,Expensenote } = req.body;
         console.log(Expensenote,"add controller note value");
+=======
+        const { amount, category, description,note } = req.body;
+        console.log(note,"add controller note value");
+>>>>>>> a7d6c8604e81462f525a4533269ad203892e652d
 
         // AI Integration
         // const ai = new GeminiApi.GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -29,8 +34,17 @@ const addExpense = async (req, res) => {
             category: category,
             description: description,
             userId: req.user.userId,
+<<<<<<< HEAD
             Expensenote:Expensenote,
         });
+=======
+            note:note,
+           
+
+        },
+            { transaction: t }
+        );
+>>>>>>> a7d6c8604e81462f525a4533269ad203892e652d
 
         const user = await users.findOne({
             where: { id: req.user.userId },

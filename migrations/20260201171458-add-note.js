@@ -10,7 +10,11 @@ module.exports = {
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
 
+<<<<<<< HEAD
     await queryInterface.addColumn("expenses","Expensenote",{
+=======
+    await queryInterface.addColumn("expenses","note",{
+>>>>>>> a7d6c8604e81462f525a4533269ad203892e652d
       type:Sequelize.STRING
     })
   },
@@ -23,6 +27,10 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
 
+<<<<<<< HEAD
     await queryInterface.removeColumn('expenses',"Expensenote");
+=======
+    await queryInterface.removeColumn('expenses',"note");
+>>>>>>> a7d6c8604e81462f525a4533269ad203892e652d
   }
 };
