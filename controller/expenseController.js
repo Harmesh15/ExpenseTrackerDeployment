@@ -12,8 +12,8 @@ const addExpense = async (req, res) => {
 
         console.log("addexpense hit");
 
-        const { amount, category, description,Expensenote } = req.body;
-        console.log(Expensenote,"add controller note value");
+        const { amount, category, description} = req.body;
+    
 
         // AI Integration
         // const ai = new GeminiApi.GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -29,7 +29,6 @@ const addExpense = async (req, res) => {
             category: category,
             description: description,
             userId: req.user.userId,
-            Expensenote:Expensenote,
    });
 
         const user = await users.findOne({
@@ -49,11 +48,10 @@ const addExpense = async (req, res) => {
 
         await t.commit();
         res.status(201).json(expense);
-
     } catch (error) {
         if (t) await t.rollback();
-        console.log(error)
-        res.status(500).send(error)
+        console.log(error.message)
+        res.status(500)
     }
 }
 
@@ -61,12 +59,13 @@ const addExpense = async (req, res) => {
 const getExpense = async (req, res) => {
     console.log("refresh par chala getExpense")
     try {
-        const getexpense = await Expense.findAll();
-
+        const getexpense = await Expense.findAll({where:{userId:req.user.userId}});
+        
+        console.log(getExpense)
         res.status(200).json(getexpense);
     } catch (error) {
         console.log(error.message);
-        res.status(500).send(error.message);
+        
     }
 }
 
@@ -222,7 +221,7 @@ const getAllExpenseForReport = async (req,res)=>{
            }
        })
     }catch(error){
-        res.status(500).json({message:"Something weng wrong"})
+        console.log(error.message);
     }
 }
 

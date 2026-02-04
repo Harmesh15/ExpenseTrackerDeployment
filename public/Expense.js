@@ -28,8 +28,6 @@ form.addEventListener('submit', async function (event) {
          amount: amount.value,
          category:category.value,
          description: description.value,
-         Expensenote:description.value + category.value,
-         note:description.value + category.value,
       },
        {
             headers: {
@@ -56,9 +54,9 @@ const getAllExpenses = async () => {
             }
          }
       )
+
       const Data = allExpense.data;
       List.innerHTML = "";
-
       Data.forEach((item) => {
          let li = document.createElement('li');
          li.innerHTML = ` 
@@ -73,8 +71,6 @@ const getAllExpenses = async () => {
 }
 
 
-window.addEventListener("load-Dom-data", getAllExpenses())
-
 const deleteExpense = async (id) => { 
    try {
       const token = localStorage.getItem("token");
@@ -85,15 +81,18 @@ const deleteExpense = async (id) => {
             }
          }
       );
+       getAllExpenses();
       console.log("Expense deleted");
       getAllExpenses();
-       fetchExpenses(currentPage);
+      fetchExpenses(currentPage);
    } catch (error) {
       alert("Something went wrong")
       console.log("Not Authorize to delete other's expenses")
       console.log(error);
    }
 }
+
+window.addEventListener("load-Dom-data", getAllExpenses())
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ premium users @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

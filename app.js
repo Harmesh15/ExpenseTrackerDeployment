@@ -36,10 +36,12 @@ app.use("/password",forgotPassRoute)
 app.use("/", paymentRoutes);
 
 
+const PORT = process.env.PORT || 8000;
+
 
 db.sync().then(() => {
     // https.createServer({ key:privateKey, cert:certificate } ,app)
-    app.listen(8000, () => {console.log("server is runnig");
+    app.listen(8000, () => {console.log(`server is runnig on port ${PORT}`);
     })
 }).catch((error) => {
     console.log(error.message);
