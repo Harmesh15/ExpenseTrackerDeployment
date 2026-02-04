@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
 
         const token = jwt.sign(
             {userId: user.id},
-            "harmesh15",
+            process.env.JWT_SECRET,
              { expiresIn: "1h" }
         );
 

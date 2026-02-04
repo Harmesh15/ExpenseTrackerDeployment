@@ -12,13 +12,8 @@ const addExpense = async (req, res) => {
 
         console.log("addexpense hit");
 
-<<<<<<< HEAD
         const { amount, category, description,Expensenote } = req.body;
         console.log(Expensenote,"add controller note value");
-=======
-        const { amount, category, description,note } = req.body;
-        console.log(note,"add controller note value");
->>>>>>> a7d6c8604e81462f525a4533269ad203892e652d
 
         // AI Integration
         // const ai = new GeminiApi.GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -34,17 +29,8 @@ const addExpense = async (req, res) => {
             category: category,
             description: description,
             userId: req.user.userId,
-<<<<<<< HEAD
             Expensenote:Expensenote,
-        });
-=======
-            note:note,
-           
-
-        },
-            { transaction: t }
-        );
->>>>>>> a7d6c8604e81462f525a4533269ad203892e652d
+   });
 
         const user = await users.findOne({
             where: { id: req.user.userId },
@@ -188,33 +174,24 @@ const updateExpense = async (req, res) => {
     }
 }
 
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@_Premium_@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 const premiumUserFuncon = async (req, res) => {
     console.log("show primum chala controller m");
-    // let t;
     try {
-        //  t = await sequelize.transaction();
         const response = await users.findAll({
             attributes: ['name', 'totalExpense'],
             order: [['totalExpense', "DESC"]],
             raw: true,
-            transaction: t
-
-        }
-            // , { transaction: t }
-        )
+        })
 
         console.log(response);
-        // await t.commit();
         res.status(200).json(response);
     } catch (error) {
-        //    if (t) await t.rollback();
         console.log(error.original);
         res.status(500).json(error.message);
     }
 }
-
-
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@_Report_@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

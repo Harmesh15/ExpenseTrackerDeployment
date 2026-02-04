@@ -28,11 +28,8 @@ form.addEventListener('submit', async function (event) {
          amount: amount.value,
          category:category.value,
          description: description.value,
-<<<<<<< HEAD
          Expensenote:description.value + category.value,
-=======
          note:description.value + category.value,
->>>>>>> a7d6c8604e81462f525a4533269ad203892e652d
       },
        {
             headers: {
@@ -116,7 +113,7 @@ showpremuiumbutton.addEventListener("click" , async ()=>{
       });
       console.log("users Displayed",response.data);
       const Data = response.data;
-
+      console.log(Data);
       ListPremium.innerHTML = "";
                Data.forEach((item)=>{
                   const li = document.createElement("li");
