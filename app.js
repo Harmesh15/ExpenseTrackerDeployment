@@ -22,8 +22,8 @@ require("./models");
 app.use(express.json())
 app.use(cors());
 
-const privateKey = fs.readFileSync('server.key');
-const certificate = fs.readFileSync('server.cert');
+// const privateKey = fs.readFileSync('server.key');
+// const certificate = fs.readFileSync('server.cert');
 
 
 app.use(express.static('public'));

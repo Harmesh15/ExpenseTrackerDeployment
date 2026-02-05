@@ -1,35 +1,31 @@
 require('dotenv').config();
-const Sequelize = require("sequelize");
+const { Sequelize } = require("sequelize");
 
-  const sequelize = new Sequelize(
-    process.env.DB_NAME,      // expense_tracker
-    process.env.DB_USER,      // root ya jo DB username hai
-    process.env.DB_PASSWORD,  // harmesh15 ya jo password hai
-    {
-        host: process.env.DB_HOST,  // localhost ya render DB host
-        port: process.env.DB_PORT || 3306, // optional, default MySQL port
-        dialect: 'mysql',
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT || 5432, 
+    dialect: 'postgres',
+    logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
     }
+  }
 );
-  
- (async ()=>{
-    try{
-         await sequelize.authenticate()
-         console.log("connection created completed");
-    }catch(error){
-        console.log(error);
-    }
- })();
 
- module.exports = sequelize;
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log(" Database connected successfully");
+  } catch (error) {
+    console.error("DB connection failed:", error);
+  }
+})();
 
-
-
- // const sequelize = new Sequelize(
-//    'expense_tracker',
-//     'root',
-//     'harmesh15',{
-//         host:"localhost",
-//         dialect:'mysql'
-//     }
-// );
+module.exports = sequelize;
