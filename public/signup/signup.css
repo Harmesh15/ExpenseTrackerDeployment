@@ -36,12 +36,12 @@ input {
   padding: 10px;
   margin-top: 5px;
   border-radius: 5px;
-  border: 1px s
+  border: 1px s;
 }
 
-button{
-    margin-top: 5px;
-    padding: 10px;
-    border-radius: 8px;
-    background-color: rgb(109, 85, 175);
+button {
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgb(109, 85, 175);
 }

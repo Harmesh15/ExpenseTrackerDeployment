@@ -5,19 +5,17 @@ const { Cashfree, CFEnvironment } = require("cashfree-pg");
 const cashfree = new Cashfree(
   CFEnvironment[process.env.CASHFREE_ENV],
   process.env.CASHFREE_APP_ID,
-  process.env.CASHFREE_SECRET_KEY
+  process.env.CASHFREE_SECRET_KEY,
 );
-
 
 exports.createOrder = async (
   orderId,
   orderAmount,
   orderCurrency = "IND",
   customerID,
-  customerPhone
+  customerPhone,
 ) => {
   try {
-
     const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
     const formattedExpiryDate = expiryDate.toISOString();
 
@@ -33,8 +31,8 @@ exports.createOrder = async (
 
       order_meta: {
         // "return_url": "https://www.cashfree.com/devstudio/preview/pg/web/checkout?order_id={order_id}",
-        "return_url": "http://localhost:8000/payment-status/" + orderId,
-        payment_methods: "ccc, upi, nb"
+        return_url: "http://localhost:8000/payment-status/" + orderId,
+        payment_methods: "ccc, upi, nb",
       },
       order_expiry_time: formattedExpiryDate, //!? Set the valid expiry date
     };
@@ -46,26 +44,25 @@ exports.createOrder = async (
   }
 };
 
-
 exports.getPaymentStatus = async (orderId) => {
   try {
     const response = await cashfree.PGOrderFetchPayments(orderId);
 
-    console.log(response, "response from getPayment mathod")
+    console.log(response, "response from getPayment mathod");
 
     let getOrderResponse = response.data;
-    console.log(getOrderResponse, "this is getOrder response above")
+    console.log(getOrderResponse, "this is getOrder response above");
     let orderStatus = "";
 
     if (
       getOrderResponse.filter(
-        (transaction) => transaction.payment_status === "SUCCESS"
+        (transaction) => transaction.payment_status === "SUCCESS",
       ).length > 0
     ) {
       orderStatus = "Success";
     } else if (
       getOrderResponse.filter(
-        (transaction) => transaction.payment_status === "PENDING"
+        (transaction) => transaction.payment_status === "PENDING",
       ).length > 0
     ) {
       orderStatus = "Pending";
@@ -74,9 +71,7 @@ exports.getPaymentStatus = async (orderId) => {
     }
 
     return orderStatus;
-
   } catch (error) {
     console.error("Error fetching order status:", error.message);
   }
 };
-

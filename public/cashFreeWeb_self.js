@@ -4,18 +4,17 @@ const cashfree = Cashfree({
 
 document.getElementById("renderBtn").addEventListener("click", async () => {
   try {
-
-     let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     // Fetch payment session ID from backend
-    const response = await axios.post("http://localhost:8000/pay",
+    const response = await axios.post(
+      "http://localhost:8000/pay",
       {},
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
-
 
     const data = response.data;
     const paymentSessionId = data.paymentSessionId;
@@ -30,8 +29,6 @@ document.getElementById("renderBtn").addEventListener("click", async () => {
 
     // Start the checkout process
     await cashfree.checkout(checkoutOptions);
-
-
   } catch (err) {
     console.error("Error:", err);
   }

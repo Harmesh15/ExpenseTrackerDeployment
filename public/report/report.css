@@ -1,16 +1,15 @@
-.reportpage{
+.reportpage {
   padding: 20px;
 }
 
-
-.headingsDates{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.headingsDates {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.secTable{
-        display: flex;
-    flex-direction: column;
-    align-items: center;
+.secTable {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

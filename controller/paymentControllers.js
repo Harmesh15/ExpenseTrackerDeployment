@@ -1,5 +1,8 @@
 const path = require("path");
-const {createOrder,getPaymentStatus,} = require("../services/cashfreeServices");
+const {
+  createOrder,
+  getPaymentStatus,
+} = require("../services/cashfreeServices");
 const Payment = require("../models/Payment");
 
 exports.getPaymentPage = (req, res) => {
@@ -7,13 +10,13 @@ exports.getPaymentPage = (req, res) => {
 };
 
 exports.processPayment = async (req, res) => {
-  console.log("User Id is ",req.user.userId);                                                                                                                  
+  console.log("User Id is ", req.user.userId);
   const orderId = "ORDER-" + Date.now();
   const orderAmount = 2000;
   const orderCurrency = "INR";
   const customerID = "1";
   const customerPhone = "9999999999";
-  console.log("process payment page hit")
+  console.log("process payment page hit");
 
   try {
     //* Create an order in Cashfree and get the payment session ID
@@ -32,10 +35,10 @@ exports.processPayment = async (req, res) => {
       orderAmount,
       orderCurrency,
       paymentStatus: "Pending",
-      userId:req.user.userId
+      userId: req.user.userId,
     });
 
-     console.log("process payment page hit sec times")
+    console.log("process payment page hit sec times");
     res.json({ paymentSessionId, orderId });
   } catch (error) {
     console.error("Error processing payment:", error.message);
@@ -44,21 +47,20 @@ exports.processPayment = async (req, res) => {
 };
 
 exports.updatePaymentStatus = async (req, res) => {
-  const orderId = req.params.orderId; 
+  const orderId = req.params.orderId;
 
   try {
     const orderStatus = await getPaymentStatus(orderId);
-  
+
     // Update payment status in the database
     const order = await Payment.update(
-         {paymentStatus:orderStatus},
-        {where:{orderId:orderId}}
+      { paymentStatus: orderStatus },
+      { where: { orderId: orderId } },
     );
 
     console.log(order);
-    
-    res.json({orderStatus})
-   
+
+    res.json({ orderStatus });
   } catch (error) {
     console.error("Error fetching payment status:", error.message);
     res.status(500).json({ message: "Error fetching payment status" });
