@@ -5,20 +5,18 @@ const password = document.querySelector("#password");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
   try {
     let object = {
       name: username.value,
       email: email.value,
       password: password.value,
     };
-
     const res = await axios.post("/user/signup", object);
     form.reset();
     alert("You register successfully");
     console.log(res.data);
   } catch (error) {
-    console.log(error.res.message);
+    console.log(error.res?.data || error.message);
   }
 });
 
