@@ -18,6 +18,7 @@ const addUser = async (req, res) => {
       password: hashedPass,
     });
 
+    console.log("user added in table");
     res.status(201).json(response);
   } catch (error) {
     console.log(error);
@@ -38,7 +39,10 @@ const loginUser = async (req, res) => {
       where: { email },
     });
 
-    if (!user) return res.status(400).json({ message: "invalid user" });
+    if (!user)
+      return res
+        .status(400)
+        .json({ message: "invalid user hai ye dekh dyan se" });
 
     const isMatched = await bcrypt.compare(password, user.password);
     if (!isMatched) return res.status(400).json({ message: "Wrong Password" });

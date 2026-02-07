@@ -23,7 +23,7 @@ form.addEventListener("submit", async function (event) {
   const token = localStorage.getItem("token");
   try {
     const response = await axios.post(
-      "http://localhost:8000/expense/add",
+      "/expense/add",
       {
         amount: amount.value,
         category: category.value,
@@ -47,7 +47,7 @@ form.addEventListener("submit", async function (event) {
 const getAllExpenses = async () => {
   try {
     const token = localStorage.getItem("token");
-    const allExpense = await axios.get("http://localhost:8000/expense/getAll", {
+    const allExpense = await axios.get("/expense/getAll", {
       headers: {
         authorization: `Bearer ${token}`,
       },
@@ -71,14 +71,11 @@ const getAllExpenses = async () => {
 const deleteExpense = async (id) => {
   try {
     const token = localStorage.getItem("token");
-    const deleteval = await axios.delete(
-      `http://localhost:8000/expense/delete/${id}`,
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
+    const deleteval = await axios.delete(`/delete/${id}`, {
+      headers: {
+        authorization: `Bearer ${token}`,
       },
-    );
+    });
     getAllExpenses();
     console.log("Expense deleted");
     getAllExpenses();
@@ -102,14 +99,11 @@ showpremuiumbutton.addEventListener("click", async () => {
   try {
     console.log("show premium btn hit");
     const token = localStorage.getItem("token");
-    const response = await axios.get(
-      "http://localhost:8000/expense/premiumUser",
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
+    const response = await axios.get("/expense/premiumUser", {
+      headers: {
+        authorization: `Bearer ${token}`,
       },
-    );
+    });
     console.log("users Displayed", response.data);
     const Data = response.data;
     console.log(Data);
@@ -145,7 +139,7 @@ async function fetchExpenses(page) {
 
   try {
     const res = await axios.get(
-      `http://localhost:8000/expense/all?page=${currentPage}&limit=${currentLimit}`,
+      `/expense/all?page=${currentPage}&limit=${currentLimit}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

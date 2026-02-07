@@ -5,7 +5,7 @@ const cashfree = Cashfree({
 document.getElementById("renderBtn").addEventListener("click", async () => {
   try {
     // Fetch payment session ID from backend
-    const response = await fetch("http://localhost:3000/pay", {
+    const response = await fetch("/pay", {
       method: "POST",
     });
 
@@ -45,12 +45,9 @@ document.getElementById("renderBtn").addEventListener("click", async () => {
       console.log("Payment has been completed, Check for Payment Status");
       console.log(result.paymentDetails.paymentMessage);
 
-      const response = await fetch(
-        `http://localhost:3000/payment-status/${orderId}`,
-        {
-          method: "GET",
-        },
-      );
+      const response = await fetch(`/payment-status/${orderId}`, {
+        method: "GET",
+      });
       const data = await response.json();
       alert("Your payment is " + data.orderStatus);
     }

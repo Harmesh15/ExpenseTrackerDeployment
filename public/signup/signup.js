@@ -13,7 +13,7 @@ form.addEventListener("submit", async (e) => {
       password: password.value,
     };
 
-    const res = await axios.post("http://localhost:8000/user/signup", object);
+    const res = await axios.post("/user/signup", object);
     form.reset();
     alert("You register successfully");
     console.log(res.data);

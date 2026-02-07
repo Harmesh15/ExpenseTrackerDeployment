@@ -4,7 +4,7 @@ const authorizationToken = require("../middleware/auth");
 const paymentController = require("../controller/paymentControllers");
 console.log("Payment route hit");
 
-router.get("/", paymentController.getPaymentPage);
+router.get("/page", paymentController.getPaymentPage);
 router.post("/pay", authorizationToken, paymentController.processPayment);
 router.get("/payment-status/:orderId", paymentController.updatePaymentStatus);
 

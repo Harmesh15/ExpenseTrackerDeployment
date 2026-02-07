@@ -8,7 +8,6 @@ const Payment = require("../models/Payment");
 exports.getPaymentPage = (req, res) => {
   res.sendFile(path.join(__dirname, "../views/index.html"));
 };
-
 exports.processPayment = async (req, res) => {
   console.log("User Id is ", req.user.userId);
   const orderId = "ORDER-" + Date.now();

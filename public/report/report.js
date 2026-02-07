@@ -5,14 +5,11 @@ let currentpage = 1;
 async function fetchExpenses(page) {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get(
-      `http://localhost:8000/expense/all?page=${page}`,
-      {
-        headers: {
-          authorization: `Bearor ${token}`,
-        },
+    const res = await axios.get(`/expense/all?page=${page}`, {
+      headers: {
+        authorization: `Bearor ${token}`,
       },
-    );
+    });
 
     const expenses = res.data.expenses;
     const pagination = res.data.pagination;
