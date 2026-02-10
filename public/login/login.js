@@ -14,7 +14,10 @@ form.addEventListener("submit", async (e) => {
     };
 
     console.log(object);
-    const response = await axios.post("/user/login", object);
+    const response = await axios.post(
+      "http://localhost:8000/user/login",
+      object,
+    );
     alert("You are Login now");
 
     localStorage.setItem("token", response.data.token);
@@ -35,9 +38,12 @@ signbtn.addEventListener("click", (e) => {
 fpassbtn.addEventListener("click", async () => {
   console.log("Click on Forgate button");
   try {
-    const response = await axios.post("/password/sendmail", {
-      email: email.value,
-    });
+    const response = await axios.post(
+      "http://localhost:8000/password/sendmail",
+      {
+        email: email.value,
+      },
+    );
     console.log(response);
     alert("Please check you email to reset your Password");
   } catch (error) {

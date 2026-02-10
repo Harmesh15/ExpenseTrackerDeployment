@@ -17,7 +17,7 @@ if (process.env.DB_URL) {
     process.env.DB_PASSWORD,
     {
       host: "localhost",
-      port: process.env.DB_PORT,
+      // port: process.env.DB_PORT,
       dialect: "mysql",
     },
   );

@@ -15,7 +15,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 const morgan = require("morgan");
 
-const DATABASE_URL = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+// const DATABASE_URL = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
 
 // const Payment = require("./models/payment");
 
@@ -54,15 +54,19 @@ app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(express.static("public"));
 
-const api = axios.create({
-  baseURL: "https://expensetrackerdeployment-2.onrender.com",
-});
+// const api = axios.create({
+//   baseURL: "https://expensetrackerdeployment-2.onrender.com",
+// });
 
 // routes
 app.use("/user", userRoutes);
 app.use("/expense", expenseRoute);
 app.use("/password", forgotPassRoute);
 app.use("/payment", paymentRoutes);
+
+app.get("/", (req, res) => {
+  window.location.href = "./public/signup/signup.html";
+});
 
 const PORT = process.env.PORT || 8000;
 

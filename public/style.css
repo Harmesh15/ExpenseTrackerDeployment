@@ -141,6 +141,16 @@ button:active {
   box-shadow: 0 5px 1;
 }
 
+
+.contenturl{
+  height: 200px;
+  width: 600px;
+ background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+li{
+  list-style: none;
+}
 /* 
 .buyMembership {
     margin-top: 80px;

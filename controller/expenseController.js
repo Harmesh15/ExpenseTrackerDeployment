@@ -1,7 +1,9 @@
 const GeminiApi = require("@google/genai");
 const Expense = require("../models/expenseModel");
 const users = require("../models/userModel");
+const content = require("../models/ContentUploded");
 const sequelize = require("../utils/db-connection");
+const S3services = require('../services/S3services');
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Expense@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -52,6 +54,7 @@ const addExpense = async (req, res) => {
     res.status(500);
   }
 };
+
 
 const getExpense = async (req, res) => {
   console.log("refresh par chala getExpense");
@@ -111,6 +114,8 @@ const deleteExpense = async (req, res) => {
   }
 };
 
+// Update Expense 
+
 const updateTotalExpenseAmount = async (req, res, id) => {
   try {
     const expesneId = id;
@@ -168,6 +173,8 @@ const updateExpense = async (req, res) => {
   }
 };
 
+
+
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@_Premium_@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 const premiumUserFunction = async (req, res) => {
@@ -188,6 +195,7 @@ const premiumUserFunction = async (req, res) => {
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@_Report_@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+
 const getAllExpenseForReport = async (req, res) => {
   try {
     console.log("getallexpensereport controller hit");
@@ -200,12 +208,14 @@ const getAllExpenseForReport = async (req, res) => {
     const totalexpenses = await Expense.count({
       where: { userId: req.user.userId },
     });
+
     const expenses = await Expense.findAll({
       where: { userId: req.user.userId },
       limit: limit,
       offset: offset,
       order: [["createdAt", "DESC"]],
     });
+
     console.log(expenses, "from controllers");
     const totalpage = Math.ceil(totalexpenses / limit);
 
@@ -225,6 +235,33 @@ const getAllExpenseForReport = async (req, res) => {
   }
 };
 
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Download ,Create_S3Bucket @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+
+const downloadExpenses = async (req, res) => {
+  try {
+
+    console.log("controller hit in download report");
+    const response = await Expense.findAll({ where: { userId: req.user.userId } });
+
+    const stringifiedExpense = JSON.stringify(response);
+    const fileName = `Expense${req.user.userId}.txt`;
+    const fileUrl = await S3services.uploadToS3(stringifiedExpense, fileName);
+
+    await content.create({
+      ContentUrl: fileUrl,
+      userId: req.user.userId
+    });
+
+    const contentReponse = await content.findAll({ where: { userId: req.user.userId } });
+    res.status(200).json({ contentReponse });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   addExpense,
   deleteExpense,
@@ -232,4 +269,5 @@ module.exports = {
   updateExpense,
   premiumUserFunction,
   getAllExpenseForReport,
+  downloadExpenses,
 };
