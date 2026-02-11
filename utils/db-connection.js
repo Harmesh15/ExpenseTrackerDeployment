@@ -1,33 +1,26 @@
 const { Sequelize } = require("sequelize");
 
-let sequelize;
+// let sequelize
+// if (process.env.DB_URL) {
+//   // Render / Production (Postgres)
+//   sequelize = new Sequelize(process.env.DB_URL, {
+//     dialect: "postgres",
+//     protocol: "postgres",
+//     logging: false, // optional, logs band
+//   });
+// } else {
+// Local (Postgres)
 
-if (process.env.DB_URL) {
-  // Render / Production (Postgres)
-  sequelize = new Sequelize(process.env.DB_URL, {
-    dialect: "postgres",
-    protocol: "postgres",
-    logging: false, // optional, logs band
-  });
-} else {
-  // Local (Postgres)
-  sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-      host: "localhost",
-      // port: process.env.DB_PORT,
-      dialect: "mysql",
-    },
-  );
-}
-
-// const sequelize = new Sequelize("expense_tracker", "root", "harmesh15", {
-//   host: "localhost",
-//   dialect: "mysql",
-//   post: "3606",
-// });
+let sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: "localhost",
+    // port: process.env.DB_PORT,
+    dialect: "mysql",
+  },
+);
 
 (async () => {
   try {
@@ -40,3 +33,23 @@ if (process.env.DB_URL) {
 })();
 
 module.exports = sequelize;
+
+
+
+
+
+// const sequelize = new Sequelize("expensetracker", "root", "harmesh15", {
+//   host: "localhost",
+//   dialect: "mysql",
+//   post: "3606",
+// });
+
+// (async () => {
+//   try {
+//     await sequelize.authenticate();
+//     console.log("connection created completed");
+//   } catch (error) {
+//     console.log(error);
+//     console.log(JSON.stringify(error));
+//   }
+// })();

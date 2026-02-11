@@ -12,7 +12,7 @@ route.get("/getAll", authorizationToken, expenseController.getExpense);
 
 route.get("/premiumUser", authorizationToken, expenseController.premiumUserFunction);
 
-// route.get("/all", authorizationToken, expenseController.getAllExpenseForReport);
+route.get("/all", authorizationToken, expenseController.getAllExpenseForReport);
 
 route.get("/download", authorizationToken, expenseController.downloadExpenses);
 //route.put("/update",expenseController.updateExpense);

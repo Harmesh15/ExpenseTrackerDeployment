@@ -46,7 +46,7 @@ document.getElementById("renderBtn").addEventListener("click", async () => {
       console.log(result.paymentDetails.paymentMessage);
 
       const response = await fetch(
-        `http://localhost:8000/payment-status/${orderId}`,
+        `http://localhost:8000/payment//payment-status/${orderId}`,
         {
           method: "GET",
         },
