@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const addUser = async (req, res) => {
+  console.log("add controller hit")
   try {
     const { name, email, password } = req.body;
 

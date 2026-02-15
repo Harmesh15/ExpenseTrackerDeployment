@@ -34,8 +34,8 @@ form.addEventListener("submit", async function (event) {
       },
       {
         headers: {
-          authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`,
+        }
       },
     );
     console.log("Expense added");
@@ -52,8 +52,8 @@ const getAllExpenses = async () => {
     const token = localStorage.getItem("token");
     const allExpense = await axios.get("http://localhost:8000/expense/getAll", {
       headers: {
-        authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`,
+      }
     });
 
     const Data = allExpense.data;
@@ -62,7 +62,7 @@ const getAllExpenses = async () => {
       let li = document.createElement("li");
       li.innerHTML = ` 
                    Rs ${item.amount}  (${item.category})  ${item.description},
-                   <button onclick="deleteExpense(${item.id})">DeleteExpense</button>
+                   <button id="btn" onclick="deleteExpense(${item.id})">DeleteExpense</button>
                 `;
       List.appendChild(li);
     });
@@ -77,27 +77,29 @@ const deleteExpense = async (id) => {
     const token = localStorage.getItem("token");
     await axios.delete(`http://localhost:8000/expense/delete/${id}`, {
       headers: {
-        authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     getAllExpenses();
     console.log("Expense deleted");
-    showExpenseBylimit(currentPage);
+    // showExpenseBylimit(currentPage);
   } catch (error) {
-    // alert("Something went wrong");
+    alert("Something went wrong");
     console.log("Not Authorize to delete other's expenses");
     console.log(error);
   }
 };
 
-window.addEventListener("load-Dom-data", getAllExpenses());
-
+window.addEventListener("DOMContentLoaded", () => {
+  showExpenseBylimit(1);
+});
 
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ premium users @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+
 buypremiumbtn.addEventListener("click", () => {
-  window.location.href = "../views/index.html";
+  window.location.href = "payment.html";
 });
 
 showpremuiumbutton.addEventListener("click", async () => {
@@ -107,7 +109,7 @@ showpremuiumbutton.addEventListener("click", async () => {
     const response = await axios.get("http://localhost:8000/expense/premiumUser",
       {
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -126,14 +128,18 @@ showpremuiumbutton.addEventListener("click", async () => {
   } catch (error) {
     console.log(error);
   }
-});
+}
+);
+
+
+
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ShowUserByLimit and Pagination @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
 
 limitSelect.addEventListener("change", function () {
-  currentLimit = this.value;
+  currentLimit = Number(this.value);
   currentPage = 1;
   showExpenseBylimit(currentPage);
 });
@@ -148,9 +154,19 @@ async function showExpenseBylimit(page) {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-        },
+        }
       },
     );
+
+
+    if (page > res.data.pagination.totalpage && res.data.pagination.totalpage > 0) {
+      currentPage = res.data.pagination.totalpage;
+      return showExpenseBylimit(currentPage);
+    }
+
+
+
+
     showExpenseReport(res.data.expenses)
     renderPagination(res.data.pagination);
   } catch (error) {
@@ -167,7 +183,7 @@ function showExpenseReport(expenses) {
 
     li.innerHTML = `
       Rs ${item.amount} (${item.category}) ${item.description}
-      <button onclick="deleteExpense(${item.id})">Delete</button>
+      <button id="btn" onclick="deleteExpense(${item.id})">DeleteExpense</button>
     `;
     List.appendChild(li);
   });
@@ -191,14 +207,14 @@ function renderPagination(pagination) {
       showExpenseBylimit(pagination.nextpage);
     };
   }
-
 }
 
-window.onload = function () {
+window.addEventListener("DOMContentLoaded", () => {
   showExpenseBylimit(1);
-};
+});
 
 
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Download and Show URL @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
 DownloadExpenses.addEventListener('click', async () => {
@@ -210,7 +226,7 @@ DownloadExpenses.addEventListener('click', async () => {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-        },
+        }
       },
     );
 
@@ -223,17 +239,16 @@ DownloadExpenses.addEventListener('click', async () => {
   }
 })
 
-
 function showContentUrl(Data) {
   try {
     ContentList.innerHTML = "";
     Data.forEach((item) => {
       const li = document.createElement('li');
-      li.innerHTML = `${item.ContentUrl}`
+      li.innerHTML = `<a href="${item.ContentUrl}" target="_blank">Download</a>`;
       ContentList.appendChild(li);
     })
-    res.status(200).json({ message: "successfull" });
+    console.log("successfull");
   } catch (err) {
-    res.status(500).json({ message: err });
+    console.log(err);
   }
 }

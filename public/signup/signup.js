@@ -14,6 +14,7 @@ form.addEventListener("submit", async (e) => {
     const res = await axios.post("http://localhost:8000/user/signup", object);
     form.reset();
     alert("You register successfully");
+    window.location.href = "../login/login.html"
     console.log(res.data);
   } catch (error) {
     console.log(error.res?.data || error.message);
@@ -43,9 +44,10 @@ form.addEventListener("submit", async (e) => {
 
 // }
 
-const loginpagebtn = document.querySelector("#loginpagebtn");
+// const loginpagebtn = document.querySelector("#loginpagebtn");
 
-loginpagebtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  window.location.href = "../login/login.html";
-});
+// loginpagebtn.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   window.location.href = "../login/login.html";
+// });
+// const signbtn = document.querySelector("#signup");
